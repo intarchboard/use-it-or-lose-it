@@ -277,7 +277,8 @@ Table of Contents
    rendered useless when encapsulated over Ethernet, requring a new
    ethertype with IPv6 [RFC2464], due in part to layer 2 devices making
    version-independent assumptions about the structure of the IPv4
-   header.
+   header.  The announcements of new optional transitive attributes in
+   BGP caused significant routing instability [RIPE-99].
 
    By increasing the number of different actors involved in any single
    protocol exchange, the number of potential implementation bugs that a
@@ -712,6 +713,10 @@ Table of Contents
    [RFC2464]  Crawford, M., "Transmission of IPv6 Packets over Ethernet
               Networks", RFC 2464, DOI 10.17487/RFC2464, December 1998,
               <https://datatracker.ietf.org/doc/html/rfc2464>.
+
+   [RIPE-99]  Romijn, E., "RIPE NCC and Duke University BGP Experiment",
+              27 August 2010, <https://labs.ripe.net/Members/erik/ripe-
+              ncc-and-duke-university-bgp-experiment/>.
 
    [RRTYPE]   Gustafsson, A., "Handling of Unknown DNS Resource Record
               (RR) Types", RFC 3597, DOI 10.17487/RFC3597, September
