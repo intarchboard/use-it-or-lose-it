@@ -4,8 +4,8 @@
 
 Network Working Group                                         M. Thomson
 Internet-Draft                                                   Mozilla
-Intended status: Informational                          15 December 2020
-Expires: 18 June 2021
+Intended status: Informational                              5 March 2021
+Expires: 6 September 2021
 
 
           Long-term Viability of Protocol Extension Mechanisms
@@ -44,11 +44,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 June 2021.
+   This Internet-Draft will expire on 6 September 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -73,10 +73,11 @@ Table of Contents
      3.3.  Unused Extension Points Become Unusable
    4.  Defensive Design Principles for Protocols
      4.1.  Active Use
-     4.2.  Cryptography
-     4.3.  Grease
-     4.4.  Invariants
-     4.5.  Effective Feedback
+     4.2.  Version Negotiation
+     4.3.  Cryptography
+     4.4.  Grease
+     4.5.  Invariants
+     4.6.  Effective Feedback
    5.  Security Considerations
    6.  IANA Considerations
    7.  Informative References
@@ -158,7 +159,7 @@ Table of Contents
    RFC 6709 [EXTENSIBILITY] contains a great deal of well-considered
    advice on designing for extension.  It includes the following advice:
 
-      This means that, to be useful, a protocol version- negotiation
+      This means that, to be useful, a protocol version-negotiation
       mechanism should be simple enough that it can reasonably be
       assumed that all the implementers of the first protocol version at
       least managed to implement the version-negotiation mechanism
@@ -274,7 +275,7 @@ Table of Contents
    largely due to middlebox interactions, as experience with Multipath
    TCP [MPTCP] and Fast Open [TFO] has shown.  IP's version field was
    rendered useless when encapsulated over Ethernet, requring a new
-   ethertype with IPv6 [RFC2462], due in part to layer 2 devices making
+   ethertype with IPv6 [RFC2464], due in part to layer 2 devices making
    version-independent assumptions about the structure of the IPv4
    header.
 
@@ -433,7 +434,32 @@ Table of Contents
    others.  There are currently no firm guidelines for new protocol
    development.
 
-4.2.  Cryptography
+4.2.  Version Negotiation
+
+   As noted in Section 2.1, protocols that provide version negotiation
+   mechanisms might not be able to test that feature until a new version
+   is deployed.  One relatively successful design approach has been to
+   use the protocol selection mechanisms built into a lower-layer
+   protocol to select the protocol.  This could allow a version
+   negotiation mechanism to benefit from active use of the extension
+   point by other protocols.
+
+   For instance, all published version of IP contain a version number as
+   the two high bits of the first header byte.  However, version
+   selection using this field proved to be unsuccessful.  Ultimately,
+   successful deployment of IPv6 over Ethernet [RFC2464] required a
+   different EtherType from IPv4.  This change took advantage of the
+   already-diverse usage of EtherType.
+
+   Other examples of this style of design include Application-Layer
+   Protocol Negotiation ([ALPN]) and HTTP content negotiation
+   (Section 12 of [HTTP]).
+
+   This technique relies on the codepoint being usable.  For instance,
+   the IP protocol number is known to be unreliable and therefore not
+   suitable [NEW-PROTOCOLS].
+
+4.3.  Cryptography
 
    Cryptography can be used to reduce the number of middlebox entities
    that can participate in a protocol.  Using tools like TLS ensures
@@ -450,7 +476,7 @@ Table of Contents
    information is exposed to middleboxes.  For those fields that are not
    encrypted, QUIC uses integrity protection to prevent modification.
 
-4.3.  Grease
+4.4.  Grease
 
    "Grease" [GREASE] identifies lack of use as an issue (protocol
    mechanisms "rusting" shut) and proposes reserving values for
@@ -507,7 +533,7 @@ Table of Contents
    participants that are willing to invest the effort and tolerate the
    risk of interoperability failures.
 
-4.4.  Invariants
+4.5.  Invariants
 
    Documenting aspects of the protocol that cannot or will not change as
    extensions or new versions are added can be a useful exercise.
@@ -527,13 +553,13 @@ Table of Contents
    such as the appendix of [QUIC-INVARIANTS], can be used to clarify
    intent.
 
-4.5.  Effective Feedback
+4.6.  Effective Feedback
 
    While not a direct means of protecting extensibility mechanisms,
    feedback systems can be important to discovering problems.
 
    Visibility of errors is critical to the success of techniques like
-   grease (see Section 4.3).  The grease design is most effective if a
+   grease (see Section 4.4).  The grease design is most effective if a
    deployment has a means of detecting and reporting errors.  Ignoring
    errors could allow problems to become entrenched.
 
@@ -575,63 +601,71 @@ Table of Contents
    [AGILITY]  Housley, R., "Guidelines for Cryptographic Algorithm
               Agility and Selecting Mandatory-to-Implement Algorithms",
               BCP 201, RFC 7696, DOI 10.17487/RFC7696, November 2015,
-              <https://www.rfc-editor.org/info/rfc7696>.
+              <https://datatracker.ietf.org/doc/html/rfc7696>.
+
+   [ALPN]     Friedl, S., Popov, A., Langley, A., and E. Stephan,
+              "Transport Layer Security (TLS) Application-Layer Protocol
+              Negotiation Extension", RFC 7301, DOI 10.17487/RFC7301,
+              July 2014,
+              <https://datatracker.ietf.org/doc/html/rfc7301>.
 
    [ALT-SVC]  Nottingham, M., McManus, P., and J. Reschke, "HTTP
               Alternative Services", RFC 7838, DOI 10.17487/RFC7838,
-              April 2016, <https://www.rfc-editor.org/info/rfc7838>.
+              April 2016,
+              <https://datatracker.ietf.org/doc/html/rfc7838>.
 
    [B2BUA]    Kaplan, H. and V. Pascual, "A Taxonomy of Session
               Initiation Protocol (SIP) Back-to-Back User Agents",
               RFC 7092, DOI 10.17487/RFC7092, December 2013,
-              <https://www.rfc-editor.org/info/rfc7092>.
+              <https://datatracker.ietf.org/doc/html/rfc7092>.
 
    [DIAMETER] Fajardo, V., Ed., Arkko, J., Loughney, J., and G. Zorn,
               Ed., "Diameter Base Protocol", RFC 6733,
               DOI 10.17487/RFC6733, October 2012,
-              <https://www.rfc-editor.org/info/rfc6733>.
+              <https://datatracker.ietf.org/doc/html/rfc6733>.
 
    [DMARC]    Kucherawy, M., Ed. and E. Zwicky, Ed., "Domain-based
               Message Authentication, Reporting, and Conformance
               (DMARC)", RFC 7489, DOI 10.17487/RFC7489, March 2015,
-              <https://www.rfc-editor.org/info/rfc7489>.
+              <https://datatracker.ietf.org/doc/html/rfc7489>.
 
    [DNS]      Mockapetris, P., "Domain names - concepts and facilities",
               STD 13, RFC 1034, DOI 10.17487/RFC1034, November 1987,
-              <https://www.rfc-editor.org/info/rfc1034>.
+              <https://datatracker.ietf.org/doc/html/rfc1034>.
 
    [EXTENSIBILITY]
               Carpenter, B., Aboba, B., Ed., and S. Cheshire, "Design
               Considerations for Protocol Extensions", RFC 6709,
               DOI 10.17487/RFC6709, September 2012,
-              <https://www.rfc-editor.org/info/rfc6709>.
+              <https://datatracker.ietf.org/doc/html/rfc6709>.
 
    [GREASE]   Benjamin, D., "Applying Generate Random Extensions And
               Sustain Extensibility (GREASE) to TLS Extensibility",
               RFC 8701, DOI 10.17487/RFC8701, January 2020,
-              <https://www.rfc-editor.org/info/rfc8701>.
+              <https://datatracker.ietf.org/doc/html/rfc8701>.
 
    [HASH]     Bellovin, S. and E. Rescorla, "Deploying a New Hash
               Algorithm", Proceedings of NDSS '06 , 2006,
               <https://www.cs.columbia.edu/~smb/papers/new-hash.pdf>.
 
-   [HTTP]     Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/info/rfc7230>.
+   [HTTP]     Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
+              Semantics", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-semantics-14, 12 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
+              semantics-14.txt>.
 
    [HTTP-HEADERS]
               Nottingham, M. and P. Kamp, "Structured Field Values for
               HTTP", Work in Progress, Internet-Draft, draft-ietf-
               httpbis-header-structure-19, 3 June 2020,
-              <http://www.ietf.org/internet-drafts/draft-ietf-httpbis-
+              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
               header-structure-19.txt>.
 
    [HTTP-RANGE]
               Fielding, R., Ed., Lafon, Y., Ed., and J. Reschke, Ed.,
               "Hypertext Transfer Protocol (HTTP/1.1): Range Requests",
               RFC 7233, DOI 10.17487/RFC7233, June 2014,
-              <https://www.rfc-editor.org/info/rfc7233>.
+              <https://datatracker.ietf.org/doc/html/rfc7233>.
 
    [INTOLERANCE]
               Kario, H., "Re: [TLS] Thoughts on Version Intolerance", 20
@@ -641,54 +675,63 @@ Table of Contents
    [MPTCP]    Ford, A., Raiciu, C., Handley, M., and O. Bonaventure,
               "TCP Extensions for Multipath Operation with Multiple
               Addresses", RFC 6824, DOI 10.17487/RFC6824, January 2013,
-              <https://www.rfc-editor.org/info/rfc6824>.
+              <https://datatracker.ietf.org/doc/html/rfc6824>.
+
+   [NEW-PROTOCOLS]
+              Barik, R., Welzl, M., Fairhurst, G., Elmokashfi, A.,
+              Dreibholz, T., and S. Gjessing, "On the usability of
+              transport protocols other than TCP: A home gateway and
+              internet path traversal study", Computer Networks Vol.
+              173, pp. 107211, DOI 10.1016/j.comnet.2020.107211, May
+              2020, <https://doi.org/10.1016/j.comnet.2020.107211>.
 
    [PATH-SIGNALS]
               Wendt, C. and M. Barnes, "Personal Assertion Token
               (PaSSporT) Extension for Signature-based Handling of
               Asserted information using toKENs (SHAKEN)", RFC 8588,
               DOI 10.17487/RFC8588, May 2019,
-              <https://www.rfc-editor.org/info/rfc8588>.
+              <https://datatracker.ietf.org/doc/html/rfc8588>.
 
    [QUIC]     Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
               and Secure Transport", Work in Progress, Internet-Draft,
-              draft-ietf-quic-transport-33, 13 December 2020,
-              <http://www.ietf.org/internet-drafts/draft-ietf-quic-
-              transport-33.txt>.
+              draft-ietf-quic-transport-34, 14 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              transport-34.txt>.
 
    [QUIC-INVARIANTS]
               Thomson, M., "Version-Independent Properties of QUIC",
               Work in Progress, Internet-Draft, draft-ietf-quic-
-              invariants-12, 13 December 2020, <http://www.ietf.org/
-              internet-drafts/draft-ietf-quic-invariants-12.txt>.
+              invariants-13, 14 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              invariants-13.txt>.
 
    [RFC0988]  Deering, S., "Host extensions for IP multicasting",
               RFC 988, DOI 10.17487/RFC0988, July 1986,
-              <https://www.rfc-editor.org/info/rfc988>.
+              <https://datatracker.ietf.org/doc/html/rfc988>.
 
-   [RFC2462]  Thomson, S. and T. Narten, "IPv6 Stateless Address
-              Autoconfiguration", RFC 2462, DOI 10.17487/RFC2462,
-              December 1998, <https://www.rfc-editor.org/info/rfc2462>.
+   [RFC2464]  Crawford, M., "Transmission of IPv6 Packets over Ethernet
+              Networks", RFC 2464, DOI 10.17487/RFC2464, December 1998,
+              <https://datatracker.ietf.org/doc/html/rfc2464>.
 
    [RRTYPE]   Gustafsson, A., "Handling of Unknown DNS Resource Record
               (RR) Types", RFC 3597, DOI 10.17487/RFC3597, September
-              2003, <https://www.rfc-editor.org/info/rfc3597>.
+              2003, <https://datatracker.ietf.org/doc/html/rfc3597>.
 
    [SIP]      Rosenberg, J., Schulzrinne, H., Camarillo, G., Johnston,
               A., Peterson, J., Sparks, R., Handley, M., and E.
               Schooler, "SIP: Session Initiation Protocol", RFC 3261,
               DOI 10.17487/RFC3261, June 2002,
-              <https://www.rfc-editor.org/info/rfc3261>.
+              <https://datatracker.ietf.org/doc/html/rfc3261>.
 
    [SMTP]     Resnick, P., Ed., "Internet Message Format", RFC 5322,
               DOI 10.17487/RFC5322, October 2008,
-              <https://www.rfc-editor.org/info/rfc5322>.
+              <https://datatracker.ietf.org/doc/html/rfc5322>.
 
    [SMTP-TLS-Reporting]
               Margolis, D., Brotman, A., Ramakrishnan, B., Jones, J.,
               and M. Risher, "SMTP TLS Reporting", RFC 8460,
               DOI 10.17487/RFC8460, September 2018,
-              <https://www.rfc-editor.org/info/rfc8460>.
+              <https://datatracker.ietf.org/doc/html/rfc8460>.
 
    [SNI]      Langley, A., "Accepting that other SNI name types will
               never work", 3 March 2016,
@@ -698,43 +741,43 @@ Table of Contents
    [SNMPv1]   Case, J., Fedor, M., Schoffstall, M., and J. Davin,
               "Simple Network Management Protocol (SNMP)", RFC 1157,
               DOI 10.17487/RFC1157, May 1990,
-              <https://www.rfc-editor.org/info/rfc1157>.
+              <https://datatracker.ietf.org/doc/html/rfc1157>.
 
    [SPF]      Kitterman, S., "Sender Policy Framework (SPF) for
               Authorizing Use of Domains in Email, Version 1", RFC 7208,
               DOI 10.17487/RFC7208, April 2014,
-              <https://www.rfc-editor.org/info/rfc7208>.
+              <https://datatracker.ietf.org/doc/html/rfc7208>.
 
    [SUCCESS]  Thaler, D. and B. Aboba, "What Makes for a Successful
               Protocol?", RFC 5218, DOI 10.17487/RFC5218, July 2008,
-              <https://www.rfc-editor.org/info/rfc5218>.
+              <https://datatracker.ietf.org/doc/html/rfc5218>.
 
    [TCP]      Postel, J., "Transmission Control Protocol", STD 7,
               RFC 793, DOI 10.17487/RFC0793, September 1981,
-              <https://www.rfc-editor.org/info/rfc793>.
+              <https://datatracker.ietf.org/doc/html/rfc793>.
 
    [TFO]      Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
               Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
-              <https://www.rfc-editor.org/info/rfc7413>.
+              <https://datatracker.ietf.org/doc/html/rfc7413>.
 
    [TLS-EXT]  Eastlake 3rd, D., "Transport Layer Security (TLS)
               Extensions: Extension Definitions", RFC 6066,
               DOI 10.17487/RFC6066, January 2011,
-              <https://www.rfc-editor.org/info/rfc6066>.
+              <https://datatracker.ietf.org/doc/html/rfc6066>.
 
    [TLS12]    Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008,
-              <https://www.rfc-editor.org/info/rfc5246>.
+              <https://datatracker.ietf.org/doc/html/rfc5246>.
 
    [TLS13]    Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/info/rfc8446>.
+              <https://datatracker.ietf.org/doc/html/rfc8446>.
 
    [TRANSITIONS]
               Thaler, D., Ed., "Planning for Protocol Adoption and
               Subsequent Transitions", RFC 8170, DOI 10.17487/RFC8170,
-              May 2017, <https://www.rfc-editor.org/info/rfc8170>.
+              May 2017, <https://datatracker.ietf.org/doc/html/rfc8170>.
 
 Acknowledgments
 
