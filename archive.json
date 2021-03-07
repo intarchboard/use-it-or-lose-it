@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-01-21T01:13:53.500283+00:00",
+  "timestamp": "2021-03-07T00:36:38.594259+00:00",
   "repo": "intarchboard/draft-use-it-or-lose-it",
   "labels": [
     {
@@ -76,15 +76,15 @@
       "id": "MDU6SXNzdWUyMTgzNTQ0MTc=",
       "title": "attribute 99 example",
       "url": "https://github.com/intarchboard/draft-use-it-or-lose-it/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From Stephane Bortzmeyer:\r\n> May be adding a mention of the \"attribute 99\" debacle? That was a good\r\ncase of a legal value breaking implementations that were not expecting\r\nit.\r\n\r\nhttps://labs.ripe.net/Members/erik/ripe-ncc-and-duke-university-bgp-experiment/\r\nhttp://ccie-in-3-months.blogspot.kr/2010/08/decoding-ripe-experiment.html",
       "createdAt": "2017-03-30T23:13:09Z",
-      "updatedAt": "2017-03-30T23:13:09Z",
-      "closedAt": null,
+      "updatedAt": "2021-03-05T22:52:06Z",
+      "closedAt": "2021-03-05T22:52:06Z",
       "comments": []
     },
     {
@@ -203,15 +203,15 @@
       "id": "MDU6SXNzdWU0NTUyNDE5NTc=",
       "title": "BGP example",
       "url": "https://github.com/intarchboard/draft-use-it-or-lose-it/issues/10",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Jeff seemed to suggest that experience with BGP might provide some useful insights.",
       "createdAt": "2019-06-12T14:19:02Z",
-      "updatedAt": "2019-06-12T14:19:02Z",
-      "closedAt": null,
+      "updatedAt": "2021-03-05T22:52:06Z",
+      "closedAt": "2021-03-05T22:52:06Z",
       "comments": []
     },
     {
@@ -407,15 +407,15 @@
       "id": "MDU6SXNzdWU3NjE2NTg5ODI=",
       "title": "Version negotiation",
       "url": "https://github.com/intarchboard/draft-use-it-or-lose-it/issues/27",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "@tfpauly identified a pattern that is useful for version negotiation: rather than build a mechanism that won't be used until v2, hoist the negotiation out of the protocol to the next layer down.  That way you can take advantage of the extension mechanisms at that layer seeing more use (and therefore gaining use-it-or-lose it advantages).\r\n\r\nAdd a new section specifically about version negotiation in the design principles section.\r\n\r\nSee also IPv6 Ethertype, ALPN, https://github.com/intarchboard/edm/issues/8\r\n\r\nIt might also be worth pointing to https://eprint.iacr.org/2016/072",
       "createdAt": "2020-12-10T22:11:45Z",
-      "updatedAt": "2020-12-10T22:14:39Z",
-      "closedAt": null,
+      "updatedAt": "2021-03-05T22:49:15Z",
+      "closedAt": "2021-03-05T22:49:15Z",
       "comments": []
     },
     {
@@ -1099,50 +1099,68 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTM5ODg1ODc0",
       "title": "Add BGP attribute 99 experiment example",
       "url": "https://github.com/intarchboard/draft-use-it-or-lose-it/pull/29",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #3.\r\nCloses #10.",
       "createdAt": "2020-12-15T00:10:34Z",
-      "updatedAt": "2020-12-15T00:10:34Z",
+      "updatedAt": "2021-03-05T22:52:06Z",
       "baseRepository": "intarchboard/draft-use-it-or-lose-it",
       "baseRefName": "main",
-      "baseRefOid": "37f9625c49e70d2dd5db2c7e0277ddbaf6069a5e",
+      "baseRefOid": "2cf280c280aa968dd28ae611ba049e541ea5a835",
       "headRepository": "intarchboard/draft-use-it-or-lose-it",
       "headRefName": "attribute99",
-      "headRefOid": "4638cde6da348c900ad8755dd175113066f2ecc1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "4b74e95173d7473b83ef6cf75f173b34436c998e",
+      "closedAt": "2021-03-05T22:52:06Z",
+      "mergedAt": "2021-03-05T22:52:05Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "f1dd96384baab22a9c41c8980cf38183c7a20c82"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjA1NjY5NjQy",
+          "commit": {
+            "abbreviatedOid": "4638cde"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-03-05T22:51:12Z",
+          "updatedAt": "2021-03-05T22:51:12Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 30,
       "id": "MDExOlB1bGxSZXF1ZXN0NTM5OTQ3NTEz",
       "title": "Add version negotiation advice",
       "url": "https://github.com/intarchboard/draft-use-it-or-lose-it/pull/30",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinthomson",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #27.",
       "createdAt": "2020-12-15T03:26:21Z",
-      "updatedAt": "2020-12-18T00:34:27Z",
+      "updatedAt": "2021-03-05T22:49:15Z",
       "baseRepository": "intarchboard/draft-use-it-or-lose-it",
       "baseRefName": "main",
       "baseRefOid": "37f9625c49e70d2dd5db2c7e0277ddbaf6069a5e",
       "headRepository": "intarchboard/draft-use-it-or-lose-it",
       "headRefName": "vn",
       "headRefOid": "1215f35823ab3a281848121c8dbc20a8fe1780b1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-03-05T22:49:15Z",
+      "mergedAt": "2021-03-05T22:49:15Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "2cf280c280aa968dd28ae611ba049e541ea5a835"
+      },
       "comments": [],
       "reviews": [
         {
